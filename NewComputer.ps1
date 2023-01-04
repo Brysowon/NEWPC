@@ -135,7 +135,6 @@ $InstalledPrograms | ForEach-Object {
     Get-AppxPackage "*dell*" | Remove-AppxPackage
 
 #Second method of uninstalling packages for the stuff that commonly slips through
-    winget uninstall "microsoft Onedrive"
     winget uninstall "Microsoft 365 - en-us"
     winget uninstall "Microsoft 365 - es-es"
     winget uninstall "Microsoft 365 - fr-fr"
