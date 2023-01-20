@@ -1,10 +1,6 @@
 #Sets Execution Policy so the Script Can Run
 Set-ExecutionPolicy Unrestricted
 
-#RMM Set up
-Start-Process https://rmm.alexspc.com/automate
-for ($i=1; $i -le 10; $i++) {Write-Host "Login and install Labtech while the script Runs"}
-
 # List of built-in apps to remove
 $UninstallPackages = @(
     "AD2F1837.HPJumpStarts"
@@ -139,26 +135,46 @@ $InstalledPrograms | ForEach-Object {
     Get-AppxPackage "*dell*" | Remove-AppxPackage
 
 #Second method of uninstalling packages for the stuff that commonly slips through
-    winget uninstall "Microsoft 365 - en-us"
-    winget uninstall "Microsoft 365 - es-es"
-    winget uninstall "Microsoft 365 - fr-fr"
-    winget uninstall "Office 16 Click-to-Run Extensibility Component"
-    winget uninstall "Office 16 Click-to-Run Localization Component"
-    winget uninstall "Office 16 Click-to-Run Licensing Component"
-    winget uninstall "Dell SupportAssist OS Recovery Plugin for Dell Update"
-    winget uninstall "Dell Watchdog Timer"
-    winget uninstall "Dell SupportAssist Remediation"
+$Uninstall = @(
+    "Microsoft 365 - en-us"
+    "Microsoft 365 - es-es"
+    "Microsoft 365 - fr-fr"
+    "Office 16 Click-to-Run Extensibility Component"
+    "Office 16 Click-to-Run Localization Component"
+    "Office 16 Click-to-Run Licensing Component"
+    "Dell SupportAssist OS Recovery Plugin for Dell Update"
+    "Dell Watchdog Timer"
+    "Dell SupportAssist Remediation"
+)
+
+foreach ($un in $Uninstall) {
+        winget uninstall $un
+}
 
 #Installs Chrome, Adobe, 7zip, and Office suite
-    winget install 7zip.7zip
-    winget install google.chrome
-    winget install XPDP273C0XHQH2
-    winget install microsoft.office
-    winget install notepad++.notepad++
-    winget install openvpntechnologies.openvpn
+$Install = @(
+    "7zip.7zip"
+    "google.chrome"
+    "XPDP273C0XHQH2"
+    "microsoft.office"
+    "notepad++.notepad++"
+    "openvpntechnologies.openvpn"
+)
 
-# Install Windows updates
-Start-Process -FilePath "C:\Windows\System32\wuauclt.exe" -ArgumentList "/detectnow"
+foreach ($in in $Install) {
+        winget install $in
+}
+
+# Install Helpdesk Btn, RMM, and Windows Updates
+$processes = @(
+    "https://rmm.alexspc.com/automate"
+    "http://www.xaq.io/5bd0ab92becdd759111630"
+    "C:\Windows\System32\wuauclt.exe"
+    )
+
+foreach ($process in $processes) {
+        Start-Process $process
+}
 
 #Prompts for restart uncomment to enable
 #$input = Read-Host "Restart computer now [y/n]"
@@ -167,3 +183,4 @@ Start-Process -FilePath "C:\Windows\System32\wuauclt.exe" -ArgumentList "/detect
 #           n{exit}
 #     default{write-warning "Skipping reboot."}
 # }
+
