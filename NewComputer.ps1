@@ -1,6 +1,10 @@
 #Sets Execution Policy so the Script Can Run
 Set-ExecutionPolicy Unrestricted
 
+#RMM Set up
+Start-Process https://rmm.alexspc.com/automate
+for ($i=1; $i -le 10; $i++) {Write-Host "Login and install Labtech while the script Runs"}
+
 # List of built-in apps to remove
 $UninstallPackages = @(
     "AD2F1837.HPJumpStarts"
@@ -151,14 +155,15 @@ $InstalledPrograms | ForEach-Object {
     winget install XPDP273C0XHQH2
     winget install microsoft.office
     winget install notepad++.notepad++
+    winget install openvpntechnologies.openvpn
 
 # Install Windows updates
 Start-Process -FilePath "C:\Windows\System32\wuauclt.exe" -ArgumentList "/detectnow"
 
-#Prompts for restart
-$input = Read-Host "Restart computer now [y/n]"
-switch($input){
-           y{Restart-computer -Force -Confirm:$false}
-           n{exit}
-     default{write-warning "Skipping reboot."}
- }
+#Prompts for restart uncomment to enable
+#$input = Read-Host "Restart computer now [y/n]"
+#switch($input){
+#           y{Restart-computer -Force -Confirm:$false}
+#           n{exit}
+#     default{write-warning "Skipping reboot."}
+# }
